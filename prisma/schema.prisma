@@ -30,7 +30,7 @@ model User {
   email      String   @unique
   password   String?
   role       RoleType
-  externalId Int?     @map("external_id")
+  externalId Int      @map("external_id")
   active     Boolean  @default(true)
 
   userCompany UserCompany[]
