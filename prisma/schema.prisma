@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,69 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Company {
+  id         Int     @id @default(autoincrement())
+  name       String
+  externalId String  @map("external_id")
+  active     Boolean @default(true)
+
+  userCompany         UserCompany[]
+  notificationCompany NotificationCompany[]
+
+  @@map("company")
+}
+
+enum RoleType {
+  ADMIN
+  USER
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  password   String
+  role       RoleType
+  externalId String   @map("external_id")
+  active     Boolean  @default(true)
+
+  userCompany UserCompany[]
+
+  @@map("user")
+}
+
+model UserCompany {
+  id        Int @id @default(autoincrement())
+  userId    Int @map("user_id")
+  companyId Int @map("company_id")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("user_company")
+}
+
+model Notification {
+  id           Int      @id @default(autoincrement())
+  title        String
+  body         String   @db.Text
+  allCompanies Boolean  @default(true) @map("all_companies")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  notificationCompany NotificationCompany[]
+
+  @@map("notification")
+}
+
+model NotificationCompany {
+  id             Int @id @default(autoincrement())
+  notificationId Int @map("notification_id")
+  companyId      Int @map("company_id")
+
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  company      Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("notification_company")
 }
