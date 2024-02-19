@@ -22,6 +22,7 @@ model Company {
 enum RoleType {
   ADMIN
   USER
+  MANAGER
 }
 
 model User {

@@ -10,7 +10,7 @@ import { AuthError } from '../errors/AuthError';
 
 class UserController {
   async index(req: Request, res: Response) {
-    if (req.user.role !== 'ADMIN') {
+    if (['ADMIN', 'MANGER'].includes(req.user.role)) {
       throw new AuthError('your can not do this operation');
     }
 
@@ -20,11 +20,15 @@ class UserController {
   }
 
   async store(req: Request, res: Response) {
-    if (req.user.role !== 'ADMIN') {
+    if (['ADMIN', 'MANGER'].includes(req.user.role)) {
       throw new AuthError('your can not do this operation');
     }
 
     const data = userSchema.parse(req.body);
+
+    if (data.role === 'MANAGER' && req.user.role !== 'MANAGER') {
+      throw new AuthError('your can not do this operation');
+    }
 
     const user = await createUser(data);
 
@@ -41,7 +45,7 @@ class UserController {
   }
 
   async update(req: Request, res: Response) {
-    if (req.user.role !== 'ADMIN') {
+    if (['ADMIN', 'MANGER'].includes(req.user.role)) {
       throw new AuthError('your can not do this operation');
     }
 
@@ -54,7 +58,7 @@ class UserController {
   }
 
   async destroy(req: Request, res: Response) {
-    if (req.user.role !== 'ADMIN') {
+    if (['ADMIN', 'MANGER'].includes(req.user.role)) {
       throw new AuthError('your can not do this operation');
     }
 
@@ -66,7 +70,7 @@ class UserController {
   }
 
   async activate(req: Request, res: Response) {
-    if (req.user.role !== 'ADMIN') {
+    if (['ADMIN', 'MANGER'].includes(req.user.role)) {
       throw new AuthError('your can not do this operation');
     }
 
