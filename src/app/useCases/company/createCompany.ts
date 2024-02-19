@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { companySchema } from '../../schemas/companySchema';
 import { APPError } from '../../errors/APPError';
-import CompanyRepository from '../../repositories/CompanyRepository';
+import CompanyRepository from '../../repositories/panelDB/CompanyRepository';
 
 export async function createCompany(
   companyData: z.infer<typeof companySchema>,

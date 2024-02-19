@@ -1,4 +1,4 @@
-import CompanyRepository from '../../repositories/CompanyRepository';
+import CompanyRepository from '../../repositories/panelDB/CompanyRepository';
 
 export async function findCompanies() {
   return CompanyRepository.findMany();
