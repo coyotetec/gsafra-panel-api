@@ -23,7 +23,7 @@ export function authentication(
     const jwtSecret = process.env.JWT_SECRET as string;
     const decoded = jwt.verify(token, jwtSecret) as {
       id: string;
-      role: 'ADMIN' | 'USER';
+      role: 'ADMIN' | 'USER' | 'MANAGER';
     };
 
     req.user = decoded;
