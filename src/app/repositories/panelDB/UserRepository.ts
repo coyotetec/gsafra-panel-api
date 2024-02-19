@@ -1,4 +1,5 @@
 import { prisma } from '../../../libs/prisma';
+import { userRoleType } from '../../../types/user';
 
 type findUniqueWhereType =
   | { id: string; email?: string }
@@ -7,13 +8,27 @@ type findUniqueWhereType =
 type dataType = {
   name: string;
   email: string;
-  role: 'ADMIN' | 'USER' | 'MANAGER';
+  role: userRoleType;
   externalId: number;
 };
 
 class UserRepository {
-  findAll() {
-    return prisma.user.findMany();
+  findAll(companyIds?: string[]) {
+    if (companyIds) {
+      return prisma.user.findMany({
+        where: {
+          userCompany: {
+            some: {
+              companyId: {
+                in: companyIds,
+              },
+            },
+          },
+        },
+      });
+    } else {
+      return prisma.user.findMany();
+    }
   }
 
   findUnique(where: findUniqueWhereType) {

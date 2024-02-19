@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { AuthError } from '../errors/AuthError';
 import jwt from 'jsonwebtoken';
+import { userRoleType } from '../../types/user';
 
 export function authentication(
   req: Request,
@@ -23,7 +24,7 @@ export function authentication(
     const jwtSecret = process.env.JWT_SECRET as string;
     const decoded = jwt.verify(token, jwtSecret) as {
       id: string;
-      role: 'ADMIN' | 'USER' | 'MANAGER';
+      role: userRoleType;
     };
 
     req.user = decoded;

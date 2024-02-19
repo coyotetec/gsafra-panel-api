@@ -21,30 +21,11 @@ router.patch(
   CompanyController.restore,
 );
 
-router.get('/companies/:companyId/users', authentication, UserController.index);
-router.post(
-  '/companies/:companyId/users',
-  authentication,
-  UserController.store,
-);
-router.post(
-  '/companies/:companyId/users/:id/password',
-  UserController.storePassword,
-);
-router.put(
-  '/companies/:companyId/users/:id',
-  authentication,
-  UserController.update,
-);
-router.delete(
-  '/companies/:companyId/users/:id',
-  authentication,
-  UserController.destroy,
-);
-router.patch(
-  '/companies/:companyId/users/:id/activate',
-  authentication,
-  UserController.activate,
-);
+router.get('/users', authentication, UserController.index);
+router.post('/users', authentication, UserController.store);
+router.post('/users/:id/password', UserController.storePassword);
+router.put('/users/:id', authentication, UserController.update);
+router.delete('/users/:id', authentication, UserController.destroy);
+router.patch('/users/:id/activate', authentication, UserController.activate);
 
 router.post('/auth/login', AuthController.login);
