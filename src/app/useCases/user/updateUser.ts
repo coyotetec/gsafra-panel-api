@@ -1,17 +1,56 @@
+import { userRoleType } from '../../../types/user';
 import { APPError } from '../../errors/APPError';
+import { AuthError } from '../../errors/AuthError';
+import UserCompanyRepository from '../../repositories/panelDB/UserCompanyRepository';
 import UserRepository from '../../repositories/panelDB/UserRepository';
 
-interface ICreateUserPayload {
+interface IUpdateUserPayload {
   name: string;
   email: string;
-  role: 'ADMIN' | 'USER' | 'MANAGER';
+  role: userRoleType;
   externalId?: number;
 }
 
-export async function updateUser(userId: string, payload: ICreateUserPayload) {
+interface IUpdateUserArgs {
+  payload: IUpdateUserPayload;
+  userId: string;
+  requesterId: string;
+  requesterRole: string;
+}
+
+export async function updateUser({
+  payload,
+  userId,
+  requesterId,
+  requesterRole,
+}: IUpdateUserArgs) {
+  const requesterUserCompanies = await UserCompanyRepository.findAll({
+    userId: requesterId,
+  });
   const userExists = await UserRepository.findUnique({
     id: userId,
   });
+  const userCompanies = await UserCompanyRepository.findAll({
+    userId,
+  });
+
+  let sameCompany = false;
+
+  if (requesterRole === 'MANAGER') {
+    sameCompany = true;
+  } else {
+    requesterUserCompanies.forEach((requesterCompany) => {
+      userCompanies.forEach((userCompany) => {
+        if (requesterCompany.companyId === userCompany.companyId) {
+          sameCompany = true;
+        }
+      });
+    });
+  }
+
+  if (!sameCompany) {
+    throw new AuthError('you can not do this operation');
+  }
 
   if (!userExists) {
     throw new APPError('user does not exists');

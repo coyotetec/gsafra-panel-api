@@ -1,3 +1,5 @@
+import { userRoleType } from '../user';
+
 export {};
 
 declare global {
@@ -5,7 +7,7 @@ declare global {
     export interface Request {
       user: {
         id: string;
-        role: 'ADMIN' | 'USER' | 'MANAGER';
+        role: userRoleType;
       };
     }
   }
