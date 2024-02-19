@@ -6,9 +6,14 @@ import { findCompanyById } from '../useCases/company/findCompanyById';
 import { updateCompany } from '../useCases/company/updateCompany';
 import { deleteCompany } from '../useCases/company/deleteCompany';
 import { restoreCompany } from '../useCases/company/restoreCompany';
+import { AuthError } from '../errors/AuthError';
 
 class CompanyController {
   async create(req: Request, res: Response) {
+    if (req.user.role !== 'MANAGER') {
+      throw new AuthError('your can not do this operation');
+    }
+
     const data = companySchema.parse(req.body);
     const company = await createCompany(data);
 
@@ -16,17 +21,29 @@ class CompanyController {
   }
 
   async getAll(req: Request, res: Response) {
+    if (req.user.role !== 'MANAGER') {
+      throw new AuthError('your can not do this operation');
+    }
+
     const companies = await findCompanies();
     return res.status(200).json(companies);
   }
 
   async getById(req: Request, res: Response) {
+    if (req.user.role !== 'MANAGER') {
+      throw new AuthError('your can not do this operation');
+    }
+
     const { id } = req.params;
     const company = await findCompanyById(id);
     return res.status(200).json(company);
   }
 
   async update(req: Request, res: Response) {
+    if (req.user.role !== 'MANAGER') {
+      throw new AuthError('your can not do this operation');
+    }
+
     const { id } = req.params;
     const data = companySchema.parse(req.body);
     const updatedCompany = await updateCompany(data, id);
@@ -34,12 +51,20 @@ class CompanyController {
   }
 
   async delete(req: Request, res: Response) {
+    if (req.user.role !== 'MANAGER') {
+      throw new AuthError('your can not do this operation');
+    }
+
     const { id } = req.params;
     const deletedCompany = await deleteCompany(id);
     return res.status(200).json(deletedCompany);
   }
 
   async restore(req: Request, res: Response) {
+    if (req.user.role !== 'MANAGER') {
+      throw new AuthError('your can not do this operation');
+    }
+
     const { id } = req.params;
     const restoredCompany = await restoreCompany(id);
     return res.status(200).json(restoredCompany);

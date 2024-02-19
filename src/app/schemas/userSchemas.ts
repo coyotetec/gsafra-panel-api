@@ -19,7 +19,7 @@ export const userSchema = z.object({
       message: 'email does not have the valid format',
     }),
   role: z
-    .enum(['ADMIN', 'USER'], {
+    .enum(['ADMIN', 'USER', 'MANAGER'], {
       invalid_type_error: 'role must be: ADMIN, USER',
     })
     .default('USER'),

@@ -4,7 +4,7 @@ import UserRepository from '../../repositories/panelDB/UserRepository';
 interface ICreateUserPayload {
   name: string;
   email: string;
-  role: 'ADMIN' | 'USER';
+  role: 'ADMIN' | 'USER' | 'MANAGER';
   externalId?: number;
 }
 

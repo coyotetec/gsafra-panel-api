@@ -7,7 +7,7 @@ type findUniqueWhereType =
 type dataType = {
   name: string;
   email: string;
-  role: 'ADMIN' | 'USER';
+  role: 'ADMIN' | 'USER' | 'MANAGER';
   externalId: number;
 };
 
