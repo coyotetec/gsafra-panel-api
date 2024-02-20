@@ -9,5 +9,8 @@ export const notificationSchema = z.object({
     required_error: 'Body is required',
     invalid_type_error: 'Body must be a string',
   }),
-  companiesId: z.array(z.string().uuid()),
+  companiesId: z.array(z.string().uuid(), {
+    required_error: 'CompaniesId is required',
+    invalid_type_error: 'CompaniesId must be an array of strings',
+  }),
 });

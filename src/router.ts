@@ -31,5 +31,11 @@ router.patch('/users/:id/activate', authentication, UserController.activate);
 
 router.get('/notifications', authentication, NotificationController.index);
 router.post('/notifications', authentication, NotificationController.store);
+router.put('/notifications/:id', authentication, NotificationController.update);
+router.delete(
+  '/notifications/:id',
+  authentication,
+  NotificationController.delete,
+);
 
 router.post('/auth/login', AuthController.login);
