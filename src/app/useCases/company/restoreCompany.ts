@@ -1,4 +1,4 @@
-import CompanyRepository from '../../repositories/CompanyRepository';
+import CompanyRepository from '../../repositories/panelDB/CompanyRepository';
 
 export function restoreCompany(id: string) {
   const company = CompanyRepository.findUnique({ where: { id } });

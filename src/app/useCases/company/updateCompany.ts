@@ -1,5 +1,5 @@
 import { APPError } from '../../errors/APPError';
-import CompanyRepository from '../../repositories/CompanyRepository';
+import CompanyRepository from '../../repositories/panelDB/CompanyRepository';
 
 interface IUpdateCompany {
   name: string;
