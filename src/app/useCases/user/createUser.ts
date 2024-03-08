@@ -9,19 +9,18 @@ interface ICreateUserPayload {
   name: string;
   email: string;
   role: userRoleType;
+  companyId?: string;
   externalId?: number;
 }
 
 interface ICreateUserArgs {
   payload: ICreateUserPayload;
-  companyId?: string;
   requesterId: string;
   requesterRole: userRoleType;
 }
 
 export async function createUser({
   payload,
-  companyId,
   requesterId,
   requesterRole,
 }: ICreateUserArgs) {
@@ -33,7 +32,7 @@ export async function createUser({
     requesterRole === 'MANAGER'
       ? true
       : requesterUserCompanies.some(
-          (company) => company.companyId === companyId,
+          (company) => company.companyId === payload.companyId,
         );
 
   if (!sameCompany) {
@@ -53,10 +52,10 @@ export async function createUser({
     externalId: payload.externalId || 1,
   });
 
-  if (payload.role !== 'MANAGER' && companyId) {
+  if (payload.role !== 'MANAGER' && payload.companyId) {
     await UserCompanyRepository.create({
       userId: user.id,
-      companyId,
+      companyId: payload.companyId,
     });
   }
 

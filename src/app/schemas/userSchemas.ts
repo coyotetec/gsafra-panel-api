@@ -29,6 +29,15 @@ export const userSchema = z.object({
     })
     .int({ message: 'externalId must be an integer number' })
     .optional(),
+  companyId: z
+    .string({
+      invalid_type_error: 'companyId must be a string',
+    })
+    .trim()
+    .uuid({
+      message: 'companyId must be a uuid',
+    })
+    .optional(),
 });
 
 export const userStorePasswordSchema = z

@@ -23,11 +23,10 @@ class UserController {
   }
 
   async store(req: Request, res: Response) {
-    if (['ADMIN', 'MANAGER'].includes(req.user.role)) {
+    if (!['ADMIN', 'MANAGER'].includes(req.user.role)) {
       throw new AuthError('your can not do this operation');
     }
 
-    const companyId = req.headers['x-company-id'] as string | undefined;
     const data = userSchema.parse(req.body);
 
     if (data.role === 'MANAGER' && req.user.role !== 'MANAGER') {
@@ -38,7 +37,6 @@ class UserController {
       payload: data,
       requesterId: req.user.id,
       requesterRole: req.user.role,
-      companyId,
     });
 
     return res.status(201).json(user);
