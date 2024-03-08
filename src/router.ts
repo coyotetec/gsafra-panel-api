@@ -6,6 +6,7 @@ import AuthController from './app/controllers/AuthController';
 import NotificationController from './app/controllers/NotificationController';
 
 import { authentication } from './app/middlewares/authentication';
+import UserCompanyController from './app/controllers/UserCompanyController';
 
 export const router = Router();
 
@@ -28,6 +29,8 @@ router.post('/users/:id/password', UserController.storePassword);
 router.put('/users/:id', authentication, UserController.update);
 router.delete('/users/:id', authentication, UserController.destroy);
 router.patch('/users/:id/activate', authentication, UserController.activate);
+
+router.get('/users/companies', authentication, UserCompanyController.index);
 
 router.get('/notifications', authentication, NotificationController.index);
 router.post('/notifications', authentication, NotificationController.store);
