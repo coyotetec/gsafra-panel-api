@@ -10,7 +10,7 @@ import { listUsers } from '../useCases/user/listUsers';
 
 class UserController {
   async index(req: Request, res: Response) {
-    if (['ADMIN', 'MANAGER'].includes(req.user.role)) {
+    if (!['ADMIN', 'MANAGER'].includes(req.user.role)) {
       throw new AuthError('your can not do this operation');
     }
 
@@ -70,7 +70,7 @@ class UserController {
   }
 
   async destroy(req: Request, res: Response) {
-    if (['ADMIN', 'MANAGER'].includes(req.user.role)) {
+    if (!['ADMIN', 'MANAGER'].includes(req.user.role)) {
       throw new AuthError('your can not do this operation');
     }
 
@@ -86,12 +86,12 @@ class UserController {
   }
 
   async activate(req: Request, res: Response) {
-    if (['ADMIN', 'MANAGER'].includes(req.user.role)) {
+    if (!['ADMIN', 'MANAGER'].includes(req.user.role)) {
       throw new AuthError('your can not do this operation');
     }
 
     const id = req.params.id;
-
+    console.log(id);
     await activateUser({
       userId: id,
       requesterId: req.user.id,

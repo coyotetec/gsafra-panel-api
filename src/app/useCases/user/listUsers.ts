@@ -35,5 +35,12 @@ export async function listUsers({
     );
   }
 
-  return users;
+  return users.map(({ active, email, externalId, id, name, role }) => ({
+    active,
+    email,
+    externalId,
+    id,
+    name,
+    role,
+  }));
 }
