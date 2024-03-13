@@ -11,7 +11,9 @@ import { listUsers } from '../useCases/user/listUsers';
 class UserController {
   async index(req: Request, res: Response) {
     if (!['ADMIN', 'MANAGER'].includes(req.user.role)) {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError(
+        'Você não tem permissão para criar listar os usuários',
+      );
     }
 
     const users = await listUsers({
@@ -24,13 +26,15 @@ class UserController {
 
   async store(req: Request, res: Response) {
     if (!['ADMIN', 'MANAGER'].includes(req.user.role)) {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError('Você não tem permissão para criar um usuário');
     }
 
     const data = userSchema.parse(req.body);
 
     if (data.role === 'MANAGER' && req.user.role !== 'MANAGER') {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError(
+        'Você não tem permissão para criar um usuário com este papel',
+      );
     }
 
     const user = await createUser({
@@ -48,12 +52,12 @@ class UserController {
 
     await createUserPassword(id, password);
 
-    return res.status(201).json({ message: 'password created' });
+    return res.status(201).json({ message: 'Senha criada' });
   }
 
   async update(req: Request, res: Response) {
     if (['ADMIN', 'MANAGER'].includes(req.user.role)) {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError('Você não tem permissão para atualizar um usuários');
     }
 
     const id = req.params.id;
@@ -71,7 +75,7 @@ class UserController {
 
   async destroy(req: Request, res: Response) {
     if (!['ADMIN', 'MANAGER'].includes(req.user.role)) {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError('Você não tem permissão para inativar um usuário');
     }
 
     const id = req.params.id;
@@ -82,12 +86,12 @@ class UserController {
       requesterRole: req.user.role,
     });
 
-    return res.json({ message: 'user inactivated' });
+    return res.json({ message: 'Usuário inativado' });
   }
 
   async activate(req: Request, res: Response) {
     if (!['ADMIN', 'MANAGER'].includes(req.user.role)) {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError('Você não tem permissão para ativar um usuário');
     }
 
     const id = req.params.id;
@@ -98,7 +102,7 @@ class UserController {
       requesterRole: req.user.role,
     });
 
-    return res.json({ message: 'user activated' });
+    return res.json({ message: 'Usuário ativado' });
   }
 }
 

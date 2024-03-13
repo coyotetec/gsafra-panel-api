@@ -4,7 +4,7 @@ import NotificationRepository from '../../repositories/panelDB/NotificationRepos
 export async function deleteNotification(id: string) {
   const notification = await NotificationRepository.findById(id);
 
-  if (!notification) throw new APPError('Notification does not exists');
+  if (!notification) throw new APPError('Notificação não encontrada');
 
   return await NotificationRepository.delete(id);
 }

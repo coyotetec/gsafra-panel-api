@@ -19,9 +19,7 @@ class NotificationController {
 
   async store(req: Request, res: Response) {
     if (req.user.role !== 'MANAGER') {
-      throw new AuthError(
-        'You do not have permission to create a notification',
-      );
+      throw new AuthError('Você não tem permissão para criar uma notificação');
     }
     const data = notificationSchema.parse(req.body);
     const notification = await createNotification(data);
@@ -32,7 +30,7 @@ class NotificationController {
   async update(req: Request, res: Response) {
     if (req.user.role !== 'MANAGER') {
       throw new AuthError(
-        'You do not have permission to update a notification',
+        'Você não tem permissão para atualizar uma notificação',
       );
     }
     const { id } = req.params;
@@ -49,7 +47,7 @@ class NotificationController {
   async delete(req: Request, res: Response) {
     if (req.user.role !== 'MANAGER') {
       throw new AuthError(
-        'You do not have permission to delete a notification',
+        'Você não tem permissão para deletar uma notificação',
       );
     }
     const { id } = req.params;

@@ -3,49 +3,49 @@ import { z } from 'zod';
 export const userSchema = z.object({
   name: z
     .string({
-      required_error: 'name is a required field',
-      invalid_type_error: 'name must be a string',
+      required_error: 'Nome é um campo obrigatório',
+      invalid_type_error: 'Nome deve ser uma string',
     })
     .trim()
     .min(1, {
-      message: 'name is a required field',
+      message: 'Nome é um campo obrigatório',
     }),
   email: z
     .string({
-      required_error: 'email is a required field',
-      invalid_type_error: 'email must be a string',
+      required_error: 'Email é um campo obrigatório',
+      invalid_type_error: 'Email deve ser uma string',
     })
     .email({
-      message: 'email does not have the valid format',
+      message: 'Email não tem um formato válido',
     }),
   role: z
     .enum(['ADMIN', 'USER', 'MANAGER'], {
-      invalid_type_error: 'role must be: ADMIN, USER',
+      invalid_type_error: 'Papel deve ser: ADMIN, USER, MANAGER',
     })
     .default('USER'),
   externalId: z
     .number({
-      invalid_type_error: 'externalId must be an integer number',
+      invalid_type_error: 'ID Externo deve ser um número inteiro',
     })
-    .int({ message: 'externalId must be an integer number' })
+    .int({ message: 'ID Externo deve ser um número inteiro' })
     .optional(),
   companyId: z
     .string({
-      invalid_type_error: 'companyId must be a string',
+      invalid_type_error: 'ID Empresa deve ser uma string',
     })
     .trim()
     .uuid({
-      message: 'companyId must be a uuid',
+      message: 'ID Empresa deve ser um ID válido',
     })
     .optional(),
 });
 
 export const userStorePasswordSchema = z
   .string({
-    required_error: 'password is a required field',
-    invalid_type_error: 'password must be a string',
+    required_error: 'Senha é um campo obrigatório',
+    invalid_type_error: 'Senha deve ser uma string',
   })
   .trim()
   .min(1, {
-    message: 'password is a required field',
+    message: 'Senha é um campo obrigatório',
   });

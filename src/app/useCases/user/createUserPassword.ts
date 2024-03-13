@@ -8,7 +8,7 @@ export async function createUserPassword(userId: string, password: string) {
   });
 
   if (!userExists) {
-    throw new APPError('user does not exists');
+    throw new APPError('Usuário não encontrado');
   }
 
   const hashedPassword = await hashPassword(password);
