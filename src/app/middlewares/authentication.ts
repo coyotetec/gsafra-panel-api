@@ -11,13 +11,13 @@ export function authentication(
   const { authorization } = req.headers;
 
   if (!authorization) {
-    throw new AuthError('no authorization header found');
+    throw new AuthError('Não foi encontrado token de autenticação');
   }
 
   const token = authorization.split(' ')[1];
 
   if (!token) {
-    throw new AuthError('invalid authentication token');
+    throw new AuthError('Token de autenticação inválido');
   }
 
   try {
@@ -31,6 +31,6 @@ export function authentication(
 
     next();
   } catch {
-    throw new AuthError('invalid authentication token');
+    throw new AuthError('Token de autenticação inválido');
   }
 }

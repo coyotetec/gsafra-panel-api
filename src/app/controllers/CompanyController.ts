@@ -11,7 +11,7 @@ import { AuthError } from '../errors/AuthError';
 class CompanyController {
   async create(req: Request, res: Response) {
     if (req.user.role !== 'MANAGER') {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError('Você não tem permissão para criar uma empresa');
     }
 
     const data = companySchema.parse(req.body);
@@ -22,7 +22,7 @@ class CompanyController {
 
   async getAll(req: Request, res: Response) {
     if (req.user.role !== 'MANAGER') {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError('Você não tem permissão para buscar as empresas');
     }
 
     const companies = await findCompanies();
@@ -31,7 +31,7 @@ class CompanyController {
 
   async getById(req: Request, res: Response) {
     if (req.user.role !== 'MANAGER') {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError('Você não tem permissão para buscar uma empresa');
     }
 
     const { id } = req.params;
@@ -41,7 +41,7 @@ class CompanyController {
 
   async update(req: Request, res: Response) {
     if (req.user.role !== 'MANAGER') {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError('Você não tem permissão para atualizar uma empresa');
     }
 
     const { id } = req.params;
@@ -52,7 +52,7 @@ class CompanyController {
 
   async delete(req: Request, res: Response) {
     if (req.user.role !== 'MANAGER') {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError('Você não tem permissão para inativar uma empresa');
     }
 
     const { id } = req.params;
@@ -62,7 +62,7 @@ class CompanyController {
 
   async restore(req: Request, res: Response) {
     if (req.user.role !== 'MANAGER') {
-      throw new AuthError('your can not do this operation');
+      throw new AuthError('Você não tem permissão para ativar uma empresa');
     }
 
     const { id } = req.params;

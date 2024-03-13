@@ -26,7 +26,7 @@ export async function inactivateUser({
   });
 
   if (!user) {
-    throw new APPError('user does not exists');
+    throw new APPError('Usuário não encontrado');
   }
 
   let sameCompany = false;
@@ -44,7 +44,7 @@ export async function inactivateUser({
   }
 
   if (!sameCompany) {
-    throw new AuthError('you can not do this operation');
+    throw new AuthError('Você não tem permissão para inativar este usuário');
   }
 
   if (user.active) {

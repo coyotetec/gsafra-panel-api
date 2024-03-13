@@ -14,21 +14,21 @@ export async function makeLogin(payload: IMakeLoginPayload) {
   });
 
   if (!user) {
-    throw new APPError('user does not exists');
+    throw new APPError('Usuário incorreto');
   }
 
   if (!user.active) {
-    throw new APPError('user is inactive');
+    throw new APPError('Usuário está inativo');
   }
 
   if (!user.password) {
-    throw new APPError('user does not finished registration');
+    throw new APPError('Usuário não terminou seu cadastro');
   }
 
   const samePassword = await validatePassword(payload.password, user.password);
 
   if (!samePassword) {
-    throw new APPError('incorrect password');
+    throw new APPError('Senha incorreta');
   }
 
   const jwtSecret = process.env.JWT_SECRET as string;

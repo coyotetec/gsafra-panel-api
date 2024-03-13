@@ -49,11 +49,11 @@ export async function updateUser({
   }
 
   if (!sameCompany) {
-    throw new AuthError('you can not do this operation');
+    throw new AuthError('Você não tem permissão para atualizar este usuário');
   }
 
   if (!userExists) {
-    throw new APPError('user does not exists');
+    throw new APPError('Usuário não encontrado');
   }
 
   const user = await UserRepository.update(userId, {

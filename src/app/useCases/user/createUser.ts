@@ -36,7 +36,7 @@ export async function createUser({
         );
 
   if (!sameCompany) {
-    throw new AuthError('you can not do this operation');
+    throw new AuthError('Você não tem permissão para criar este usuário');
   }
 
   const userAlreadyExists = await UserRepository.findUnique({
@@ -44,7 +44,7 @@ export async function createUser({
   });
 
   if (userAlreadyExists) {
-    throw new APPError('email already in use');
+    throw new APPError('Email já está em uso');
   }
 
   const user = await UserRepository.create({

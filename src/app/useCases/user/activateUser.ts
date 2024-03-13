@@ -26,7 +26,7 @@ export async function activateUser({
   });
 
   if (!user) {
-    throw new APPError('user does not exists');
+    throw new APPError('Usuário não existe');
   }
 
   let sameCompany = false;
@@ -44,7 +44,7 @@ export async function activateUser({
   }
 
   if (!sameCompany) {
-    throw new AuthError('you can not do this operation');
+    throw new AuthError('Você não tem permissão para ativar este usuário');
   }
 
   if (!user.active) {

@@ -17,7 +17,7 @@ export async function updateNotification({
 }: INotificationData) {
   const notification = await NotificationRepository.findById(notificationId);
 
-  if (!notification) throw new APPError('Notification does not exists');
+  if (!notification) throw new APPError('Notificação não encontrada');
 
   if (companiesId.length === 0) {
     const notificationUpdated = await NotificationRepository.update(

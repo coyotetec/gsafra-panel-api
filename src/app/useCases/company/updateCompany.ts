@@ -9,7 +9,7 @@ interface IUpdateCompany {
 export async function updateCompany(data: IUpdateCompany, id: string) {
   const companyExists = await CompanyRepository.findUnique({ where: { id } });
 
-  if (!companyExists) throw new APPError('Company not found');
+  if (!companyExists) throw new APPError('Empresa não encontrada');
 
   return await CompanyRepository.update({
     where: { id },
