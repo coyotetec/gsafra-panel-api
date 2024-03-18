@@ -31,6 +31,11 @@ router.delete('/users/:id', authentication, UserController.destroy);
 router.patch('/users/:id/activate', authentication, UserController.activate);
 
 router.get('/users/companies', authentication, UserCompanyController.index);
+router.get(
+  '/users/:id/companies',
+  authentication,
+  UserCompanyController.listCompaniesByUserId,
+);
 
 router.get('/notifications', authentication, NotificationController.index);
 router.post('/notifications', authentication, NotificationController.store);

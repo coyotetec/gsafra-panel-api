@@ -1,11 +1,23 @@
 import { Request, Response } from 'express';
 import { listUserCompanies } from '../useCases/userCompany/listUserCompanies';
+import { AuthError } from '../errors/AuthError';
+import { findUserCompanies } from '../useCases/userCompany/findUserCompanies';
 
 class UserCompanyController {
   async index(req: Request, res: Response) {
     const companies = await listUserCompanies(req.user.id);
 
     res.json(companies);
+  }
+
+  async listCompaniesByUserId(req: Request, res: Response) {
+    if (!['ADMIN', 'MANAGER'].includes(req.user.role)) {
+      throw new AuthError('Você não permissão para realizar essa listagem');
+    }
+    const { id } = req.params;
+    const user = await findUserCompanies(id);
+
+    return res.json(user);
   }
 }
 
