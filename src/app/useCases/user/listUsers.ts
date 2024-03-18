@@ -11,10 +11,13 @@ interface IListUsersResponse {
   id: string;
   name: string;
   email: string;
-  password: string | null;
   role: userRoleType;
   externalId: number;
   active: boolean;
+  companies: {
+    id: string;
+    name: string;
+  }[];
 }
 
 export async function listUsers({
@@ -28,11 +31,35 @@ export async function listUsers({
   let users: IListUsersResponse[] = [];
 
   if (requesterRole === 'MANAGER') {
-    users = await UserRepository.findAll();
+    users = (await UserRepository.findAll()).map((user) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      externalId: user.externalId,
+      active: user.active,
+      companies: user.userCompany.map((userCompany) => ({
+        id: userCompany.company.id,
+        name: userCompany.company.name,
+      })),
+    }));
   } else {
-    users = await UserRepository.findAll(
-      requesterUserCompanies.map((company) => company.companyId),
-    );
+    users = (
+      await UserRepository.findAll(
+        requesterUserCompanies.map((company) => company.companyId),
+      )
+    ).map((user) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      externalId: user.externalId,
+      active: user.active,
+      companies: user.userCompany.map((userCompany) => ({
+        id: userCompany.company.id,
+        name: userCompany.company.name,
+      })),
+    }));
   }
 
   return users;

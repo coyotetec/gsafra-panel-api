@@ -25,9 +25,34 @@ class UserRepository {
             },
           },
         },
+        include: {
+          userCompany: {
+            select: {
+              company: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
+        },
       });
     } else {
-      return prisma.user.findMany();
+      return prisma.user.findMany({
+        include: {
+          userCompany: {
+            select: {
+              company: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      });
     }
   }
 
