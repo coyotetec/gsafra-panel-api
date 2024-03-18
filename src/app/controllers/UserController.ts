@@ -11,9 +11,7 @@ import { listUsers } from '../useCases/user/listUsers';
 class UserController {
   async index(req: Request, res: Response) {
     if (!['ADMIN', 'MANAGER'].includes(req.user.role)) {
-      throw new AuthError(
-        'Você não tem permissão para criar listar os usuários',
-      );
+      throw new AuthError('Você não tem permissão para listar os usuários');
     }
 
     const users = await listUsers({
@@ -56,7 +54,7 @@ class UserController {
   }
 
   async update(req: Request, res: Response) {
-    if (['ADMIN', 'MANAGER'].includes(req.user.role)) {
+    if (!['ADMIN', 'MANAGER'].includes(req.user.role)) {
       throw new AuthError('Você não tem permissão para atualizar um usuários');
     }
 
