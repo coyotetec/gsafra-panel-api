@@ -21,6 +21,7 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "node-firebird": "^1.1.8",
     "nodemailer": "^6.9.9",
     "prisma": "^5.9.1",
     "zod": "^3.22.4"
