@@ -34,7 +34,18 @@ class CompanyRepository {
   }
 
   async findMany() {
-    return await prisma.company.findMany();
+    return await prisma.company.findMany({
+      orderBy: {
+        externalId: 'asc',
+      },
+      include: {
+        _count: {
+          select: {
+            userCompany: true,
+          },
+        },
+      },
+    });
   }
 
   async create({ data }: ICreateArgs) {

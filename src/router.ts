@@ -16,11 +16,11 @@ router.get('/companies', authentication, CompanyController.getAll);
 router.get('/companies/:id', authentication, CompanyController.getById);
 router.post('/companies', authentication, CompanyController.create);
 router.put('/companies/:id', authentication, CompanyController.update);
-router.delete('/companies/:id', authentication, CompanyController.delete);
+router.delete('/companies/:id', authentication, CompanyController.destroy);
 router.patch(
-  '/companies/restore/:id',
+  '/companies/:id/activate',
   authentication,
-  CompanyController.restore,
+  CompanyController.activate,
 );
 
 router.get('/users', authentication, UserController.index);

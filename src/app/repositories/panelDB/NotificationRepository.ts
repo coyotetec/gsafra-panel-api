@@ -7,7 +7,23 @@ interface INotificationDataRepository {
 
 class NotificationRepository {
   findAll() {
-    return prisma.notification.findMany();
+    return prisma.notification.findMany({
+      include: {
+        notificationCompany: {
+          include: {
+            company: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
   }
 
   findByUserId(userId: string) {

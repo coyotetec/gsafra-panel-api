@@ -51,11 +51,9 @@ class NotificationController {
       );
     }
     const { id } = req.params;
-    const notificationDeleted = await deleteNotification(id);
+    await deleteNotification(id);
 
-    return res
-      .status(200)
-      .json({ message: 'Notification deleted', notificationDeleted });
+    return res.status(200).json({ message: 'Notificação deletada' });
   }
 }
 

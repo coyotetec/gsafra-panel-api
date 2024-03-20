@@ -13,7 +13,7 @@ export async function createCompany(
   });
 
   if (companyExists) {
-    throw new APPError('Empresa já existe');
+    throw new APPError('Já existe uma empresa com este código');
   }
 
   const company = await CompanyRepository.create({

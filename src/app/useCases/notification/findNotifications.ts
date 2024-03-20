@@ -7,7 +7,16 @@ interface IUser {
 
 export async function findNotifications({ id, role }: IUser) {
   if (role === 'MANAGER') {
-    return NotificationRepository.findAll();
+    return (await NotificationRepository.findAll()).map((notification) => ({
+      id: notification.id,
+      title: notification.title,
+      body: notification.body,
+      allCompanies: notification.allCompanies,
+      createdAt: notification.createdAt,
+      recipients: notification.notificationCompany.map(
+        (notificationCompany) => notificationCompany.company,
+      ),
+    }));
   }
 
   const notifications = await NotificationRepository.findByUserId(id);

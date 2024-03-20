@@ -4,9 +4,9 @@ import { createCompany } from '../useCases/company/createCompany';
 import { findCompanies } from '../useCases/company/findCompanies';
 import { findCompanyById } from '../useCases/company/findCompanyById';
 import { updateCompany } from '../useCases/company/updateCompany';
-import { deleteCompany } from '../useCases/company/deleteCompany';
-import { restoreCompany } from '../useCases/company/restoreCompany';
 import { AuthError } from '../errors/AuthError';
+import { activateCompany } from '../useCases/company/activateCompany';
+import { inactivateCompany } from '../useCases/company/inactivateCompany';
 
 class CompanyController {
   async create(req: Request, res: Response) {
@@ -50,24 +50,28 @@ class CompanyController {
     return res.status(200).json(updatedCompany);
   }
 
-  async delete(req: Request, res: Response) {
+  async destroy(req: Request, res: Response) {
     if (req.user.role !== 'MANAGER') {
       throw new AuthError('Você não tem permissão para inativar uma empresa');
     }
 
     const { id } = req.params;
-    const deletedCompany = await deleteCompany(id);
-    return res.status(200).json(deletedCompany);
+
+    await inactivateCompany(id);
+
+    return res.json({ message: 'Empresa inativada' });
   }
 
-  async restore(req: Request, res: Response) {
+  async activate(req: Request, res: Response) {
     if (req.user.role !== 'MANAGER') {
       throw new AuthError('Você não tem permissão para ativar uma empresa');
     }
 
     const { id } = req.params;
-    const restoredCompany = await restoreCompany(id);
-    return res.status(200).json(restoredCompany);
+
+    await activateCompany(id);
+
+    return res.json({ message: 'Empresa ativada' });
   }
 }
 
