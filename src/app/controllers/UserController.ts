@@ -93,7 +93,7 @@ class UserController {
     }
 
     const id = req.params.id;
-    console.log(id);
+
     await activateUser({
       userId: id,
       requesterId: req.user.id,

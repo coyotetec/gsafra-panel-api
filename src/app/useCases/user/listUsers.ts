@@ -48,26 +48,33 @@ export async function listUsers({
       await UserRepository.findAll(
         requesterUserCompanies.map((company) => company.companyId),
       )
-    ).map((user) => ({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      externalId: user.externalId,
-      active: user.active,
-      companies: user.userCompany.map((userCompany) => ({
-        id: userCompany.company.id,
-        name: userCompany.company.name,
-      })),
-    }));
+    )
+      .map((user) => {
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          externalId: user.externalId,
+          active: user.active,
+          companies: user.userCompany.map((userCompany) => ({
+            id: userCompany.company.id,
+            name: userCompany.company.name,
+          })),
+        };
+      })
+      .filter((user) => user.id !== requesterId);
   }
 
-  return users.map(({ active, email, externalId, id, name, role }) => ({
-    active,
-    email,
-    externalId,
-    id,
-    name,
-    role,
-  }));
+  return users.map(
+    ({ active, email, externalId, id, name, role, companies }) => ({
+      active,
+      email,
+      externalId,
+      id,
+      name,
+      role,
+      companies,
+    }),
+  );
 }
