@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { createUser } from '../../useCases/panel/user/createUser';
-import { createUserPassword } from '../../useCases/panel/user/createUserPassword';
 import { inactivateUser } from '../../useCases/panel/user/inactivateUser';
 import { activateUser } from '../../useCases/panel/user/activateUser';
 import { updateUser } from '../../useCases/panel/user/updateUser';
 import { listUsers } from '../../useCases/panel/user/listUsers';
 import { AuthError } from '../../errors/AuthError';
-import { userStorePasswordSchema, userSchema } from '../../schemas/userSchemas';
+import { userSchema, userStoreSchema } from '../../schemas/userSchemas';
+import { bulkCreateUsers } from '../../useCases/panel/user/bulkCreateUsers';
 
 class UserController {
   async index(req: Request, res: Response) {
@@ -27,30 +27,31 @@ class UserController {
       throw new AuthError('Você não tem permissão para criar um usuário');
     }
 
-    const data = userSchema.parse(req.body);
+    const data = userStoreSchema.parse(req.body);
 
-    if (data.role === 'MANAGER' && req.user.role !== 'MANAGER') {
-      throw new AuthError(
-        'Você não tem permissão para criar um usuário com este papel',
-      );
+    if (Array.isArray(data)) {
+      if (req.user.role !== 'MANAGER') {
+        throw new AuthError(
+          'Você não tem permissão para criar vários usuários',
+        );
+      }
+    } else {
+      if (data.role === 'MANAGER' && req.user.role !== 'MANAGER') {
+        throw new AuthError(
+          'Você não tem permissão para criar um usuário com este papel',
+        );
+      }
     }
 
-    const user = await createUser({
-      payload: data,
-      requesterId: req.user.id,
-      requesterRole: req.user.role,
-    });
+    const response = Array.isArray(data)
+      ? await bulkCreateUsers(data)
+      : await createUser({
+          payload: data,
+          requesterId: req.user.id,
+          requesterRole: req.user.role,
+        });
 
-    return res.status(201).json(user);
-  }
-
-  async storePassword(req: Request, res: Response) {
-    const id = req.params.id;
-    const password = userStorePasswordSchema.parse(req.body.password);
-
-    await createUserPassword(id, password);
-
-    return res.status(201).json({ message: 'Senha criada' });
+    return res.status(201).json(response);
   }
 
   async update(req: Request, res: Response) {

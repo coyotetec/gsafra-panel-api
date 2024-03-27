@@ -12,11 +12,11 @@ export const userSchema = z.object({
     }),
   email: z
     .string({
-      required_error: 'Email é um campo obrigatório',
-      invalid_type_error: 'Email deve ser uma string',
+      required_error: 'E-mail é um campo obrigatório',
+      invalid_type_error: 'E-mail deve ser uma string',
     })
     .email({
-      message: 'Email não tem um formato válido',
+      message: 'E-mail não tem um formato válido',
     }),
   role: z
     .enum(['ADMIN', 'USER', 'MANAGER'], {
@@ -40,12 +40,4 @@ export const userSchema = z.object({
     .optional(),
 });
 
-export const userStorePasswordSchema = z
-  .string({
-    required_error: 'Senha é um campo obrigatório',
-    invalid_type_error: 'Senha deve ser uma string',
-  })
-  .trim()
-  .min(1, {
-    message: 'Senha é um campo obrigatório',
-  });
+export const userStoreSchema = z.union([userSchema, z.array(userSchema)]);

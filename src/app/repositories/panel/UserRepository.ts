@@ -55,9 +55,14 @@ class UserRepository {
             },
           },
         },
-        orderBy: {
-          name: 'asc',
-        },
+        orderBy: [
+          {
+            role: 'asc',
+          },
+          {
+            name: 'asc',
+          },
+        ],
       });
     }
   }
