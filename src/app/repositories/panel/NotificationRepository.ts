@@ -27,34 +27,26 @@ class NotificationRepository {
   }
 
   findByUserId(userId: string) {
-    return prisma.notificationCompany.findMany({
+    return prisma.notification.findMany({
       where: {
         OR: [
           {
-            company: {
-              userCompany: {
-                some: {
-                  userId,
+            notificationCompany: {
+              some: {
+                company: {
+                  userCompany: {
+                    some: {
+                      userId,
+                    },
+                  },
                 },
               },
             },
           },
           {
-            notification: {
-              allCompanies: true,
-            },
-          },
-        ],
-      },
-      select: {
-        notification: {
-          select: {
-            id: true,
-            title: true,
-            body: true,
             allCompanies: true,
           },
-        },
+        ],
       },
     });
   }
@@ -90,7 +82,7 @@ class NotificationRepository {
     });
   }
 
-  createEspecificNotification(
+  createSpecificNotification(
     notificationData: INotificationDataRepository,
     companiesId: string[],
   ) {

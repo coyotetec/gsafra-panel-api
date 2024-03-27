@@ -37,6 +37,9 @@ class UserRepository {
             },
           },
         },
+        orderBy: {
+          name: 'asc',
+        },
       });
     } else {
       return prisma.user.findMany({

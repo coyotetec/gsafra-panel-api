@@ -63,5 +63,12 @@ export async function updateUser({
     externalId: payload.externalId || 0,
   });
 
-  return user;
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    externalId: user.externalId,
+    active: user.active,
+  };
 }
