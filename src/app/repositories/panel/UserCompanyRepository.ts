@@ -24,10 +24,17 @@ class UserCompanyRepository {
     return prisma.userCompany.findMany({
       where: { userId },
       select: {
+        user: {
+          select: {
+            name: true,
+            externalId: true,
+          },
+        },
         company: {
           select: {
             id: true,
             name: true,
+            externalId: true,
           },
         },
       },

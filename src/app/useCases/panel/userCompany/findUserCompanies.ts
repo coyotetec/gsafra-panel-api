@@ -10,7 +10,11 @@ export async function findUserCompanies(userId: string) {
   const formattedCompaniesData = companiesData.map(({ company }) => ({
     name: company.name,
     id: company.id,
+    externalId: company.externalId,
   }));
 
-  return formattedCompaniesData;
+  return {
+    externalUserId: companiesData?.[0].user.externalId,
+    companies: formattedCompaniesData,
+  };
 }
