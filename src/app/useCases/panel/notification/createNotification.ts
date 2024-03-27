@@ -21,7 +21,7 @@ export async function createNotification({
     return notification;
   }
 
-  const notification = await NotificationRepository.createEspecificNotification(
+  const notification = await NotificationRepository.createSpecificNotification(
     { body, title, allCompanies: false },
     companiesId,
   );

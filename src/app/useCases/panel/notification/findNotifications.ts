@@ -21,9 +21,5 @@ export async function findNotifications({ id, role }: IUser) {
 
   const notifications = await NotificationRepository.findByUserId(id);
 
-  const mappedNotifications = notifications.map(({ notification }) => ({
-    ...notification,
-  }));
-
-  return mappedNotifications;
+  return notifications;
 }

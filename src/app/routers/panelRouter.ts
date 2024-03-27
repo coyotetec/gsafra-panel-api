@@ -40,6 +40,12 @@ panelRouter.get(
   UserCompanyController.index,
 );
 
+panelRouter.get(
+  '/users/:id/companies',
+  authentication,
+  UserCompanyController.listCompaniesByUserId,
+);
+
 panelRouter.get('/notifications', authentication, NotificationController.index);
 panelRouter.post(
   '/notifications',

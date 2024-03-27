@@ -20,6 +20,27 @@ class UserCompanyRepository {
     });
   }
 
+  findManyUserCompanies(userId: string) {
+    return prisma.userCompany.findMany({
+      where: { userId },
+      select: {
+        user: {
+          select: {
+            name: true,
+            externalId: true,
+          },
+        },
+        company: {
+          select: {
+            id: true,
+            name: true,
+            externalId: true,
+          },
+        },
+      },
+    });
+  }
+
   async userBelongsToCompany(data: dataType) {
     return (
       (await prisma.userCompany.count({

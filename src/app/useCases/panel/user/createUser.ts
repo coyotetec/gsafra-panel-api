@@ -48,7 +48,9 @@ export async function createUser({
   }
 
   const user = await UserRepository.create({
-    ...payload,
+    name: payload.name,
+    email: payload.email,
+    role: payload.role,
     externalId: payload.externalId || 1,
   });
 
