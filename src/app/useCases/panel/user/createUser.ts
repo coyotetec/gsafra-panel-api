@@ -5,7 +5,7 @@ import { AuthError } from '../../../errors/AuthError';
 import UserCompanyRepository from '../../../repositories/panel/UserCompanyRepository';
 import UserRepository from '../../../repositories/panel/UserRepository';
 
-interface ICreateUserPayload {
+export interface ICreateUserPayload {
   name: string;
   email: string;
   role: userRoleType;
@@ -48,8 +48,10 @@ export async function createUser({
   }
 
   const user = await UserRepository.create({
-    ...payload,
-    externalId: payload.externalId || 1,
+    name: payload.name,
+    email: payload.email,
+    role: payload.role,
+    externalId: payload.externalId || 0,
   });
 
   if (payload.role !== 'MANAGER' && payload.companyId) {
@@ -62,9 +64,16 @@ export async function createUser({
   sendEmail(
     user.email,
     'Bem-vindo ao Painel GSafra',
-    { name: user.name },
+    { name: user.name, url: `${process.env.CREATE_PASSWORD_URL}?u=${user.id}` },
     'welcome',
   );
 
-  return user;
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    externalId: user.externalId,
+    active: user.active,
+  };
 }

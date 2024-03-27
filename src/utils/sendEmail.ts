@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 import fs from 'node:fs';
 import path from 'node:path';
 
-type emailTemplateName = 'welcome';
+type emailTemplateName = 'welcome' | 'passwordChanged' | 'resetPassword';
 
 export async function sendEmail(
   email: string,
@@ -40,6 +40,7 @@ export async function sendEmail(
 
   transporter.sendMail(options(), (error) => {
     if (error) {
+      console.log('Erro ao enviar o e-mail');
       return error;
     }
   });

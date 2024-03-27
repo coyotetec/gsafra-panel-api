@@ -25,7 +25,6 @@ panelRouter.patch(
 
 panelRouter.get('/users', authentication, UserController.index);
 panelRouter.post('/users', authentication, UserController.store);
-panelRouter.post('/users/:id/password', UserController.storePassword);
 panelRouter.put('/users/:id', authentication, UserController.update);
 panelRouter.delete('/users/:id', authentication, UserController.destroy);
 panelRouter.patch(
@@ -58,3 +57,5 @@ panelRouter.delete(
 );
 
 panelRouter.post('/auth/login', AuthController.login);
+panelRouter.post('/auth/password', AuthController.resetPassword);
+panelRouter.post('/auth/request-reset', AuthController.requestReset);

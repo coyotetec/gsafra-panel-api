@@ -9,7 +9,7 @@ interface IFindAllPersistence {
 export interface IFindAllDomain {
   id: number;
   name: string;
-  email: string;
+  email?: string;
 }
 
 export function findAllMapper(
@@ -18,6 +18,6 @@ export function findAllMapper(
   return {
     id: persistence.ID,
     name: capitalizeWords(persistence.LOGIN),
-    email: persistence.EMAIL,
+    email: persistence.EMAIL ? persistence.EMAIL : undefined,
   };
 }

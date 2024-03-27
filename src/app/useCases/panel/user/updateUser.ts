@@ -57,8 +57,10 @@ export async function updateUser({
   }
 
   const user = await UserRepository.update(userId, {
-    ...payload,
-    externalId: payload.externalId || 1,
+    name: payload.name,
+    email: payload.email,
+    role: payload.role,
+    externalId: payload.externalId || 0,
   });
 
   return user;
