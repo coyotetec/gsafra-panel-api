@@ -1,5 +1,6 @@
 import { validatePassword } from '../../../../utils/validatePassword';
 import { APPError } from '../../../errors/APPError';
+import UserCompanyRepository from '../../../repositories/panel/UserCompanyRepository';
 import UserRepository from '../../../repositories/panel/UserRepository';
 import jwt from 'jsonwebtoken';
 
@@ -17,12 +18,20 @@ export async function makeLogin(payload: IMakeLoginPayload) {
     throw new APPError('Usuário incorreto');
   }
 
+  const userCompanies = await UserCompanyRepository.findManyUserCompanies(
+    user.id,
+  );
+
+  if (userCompanies.every(({ company: { active } }) => !active)) {
+    throw new APPError('Você não possui empresa ativa');
+  }
+
   if (!user.active) {
-    throw new APPError('Usuário está inativo');
+    throw new APPError('Você está inativo');
   }
 
   if (!user.password) {
-    throw new APPError('Usuário não terminou seu cadastro');
+    throw new APPError('Você não terminou seu cadastro');
   }
 
   const samePassword = await validatePassword(payload.password, user.password);

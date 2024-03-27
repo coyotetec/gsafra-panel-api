@@ -22,7 +22,7 @@ class UserCompanyRepository {
 
   findManyUserCompanies(userId: string) {
     return prisma.userCompany.findMany({
-      where: { userId },
+      where: { userId, company: { active: true } },
       select: {
         user: {
           select: {
@@ -35,6 +35,7 @@ class UserCompanyRepository {
             id: true,
             name: true,
             externalId: true,
+            active: true,
           },
         },
       },
