@@ -64,7 +64,7 @@ export async function createUser({
   sendEmail(
     user.email,
     'Bem-vindo ao Painel GSafra',
-    { name: user.name, url: `${process.env.CREATE_PASSWORD_URL}?u=${user.id}` },
+    { name: user.name, url: `${process.env.RESET_PASSWORD_URL}?u=${user.id}` },
     'welcome',
   );
 
