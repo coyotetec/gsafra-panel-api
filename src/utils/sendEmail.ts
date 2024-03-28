@@ -20,14 +20,7 @@ export async function sendEmail(
     },
   });
   const source = fs.readFileSync(
-    path.resolve(
-      __dirname,
-      '..',
-      'app',
-      'views',
-      'emails',
-      `${templateName}.hbs`,
-    ),
+    path.resolve(__dirname, '..', '..', 'templates', `${templateName}.hbs`),
     'utf-8',
   );
   const template = Handlebars.compile(source);
