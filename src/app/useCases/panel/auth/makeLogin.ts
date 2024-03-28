@@ -22,7 +22,10 @@ export async function makeLogin(payload: IMakeLoginPayload) {
     user.id,
   );
 
-  if (userCompanies.every(({ company: { active } }) => !active)) {
+  if (
+    user.role !== 'MANAGER' &&
+    userCompanies.every(({ company: { active } }) => !active)
+  ) {
     throw new APPError('Você não possui empresa ativa');
   }
 
