@@ -32,7 +32,7 @@ export async function sendEmail(
   );
   const template = Handlebars.compile(source);
   const options = () => ({
-    from: '"GSafra" <suporte@gsafra.com>',
+    from: '"GSafra" <noreply@gsafra.com>',
     to: email,
     subject,
     html: template(payload),
