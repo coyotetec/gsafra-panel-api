@@ -7,10 +7,15 @@ import NotificationController from '../controllers/panel/NotificationController'
 
 import { authentication } from '../middlewares/authentication';
 import UserCompanyController from '../controllers/panel/UserCompanyController';
+import { sendWhatsappMessage } from '../../utils/sendWhatsappMessage';
 
 export const panelRouter = Router();
 
 panelRouter.get('/test', (req, res) => res.json({ message: 'Hello World' }));
+panelRouter.get('/test-whatsapp', (req, res) => {
+  sendWhatsappMessage('5591980589159', 'Mensagem de teste');
+  res.json({ message: 'Hello World' });
+});
 
 panelRouter.get('/companies', authentication, CompanyController.getAll);
 panelRouter.get('/companies/:id', authentication, CompanyController.getById);
