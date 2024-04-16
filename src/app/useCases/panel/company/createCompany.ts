@@ -1,11 +1,13 @@
-import { z } from 'zod';
-import { companySchema } from '../../../schemas/companySchema';
 import { APPError } from '../../../errors/APPError';
 import CompanyRepository from '../../../repositories/panel/CompanyRepository';
 
-export async function createCompany(
-  companyData: z.infer<typeof companySchema>,
-) {
+interface ICreateCompany {
+  name: string;
+  host: string;
+  externalId: string;
+}
+
+export async function createCompany(companyData: ICreateCompany) {
   const companyExists = await CompanyRepository.findFirst({
     where: {
       externalId: companyData.externalId,

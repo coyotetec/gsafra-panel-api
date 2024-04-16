@@ -10,8 +10,9 @@ import { receivablesMessageGenerate } from './generators/financial/receivablesGe
 export type financialType = 'receivables' | 'payables';
 
 class FinancialMessages {
-  async accounts(externalId: string, type: financialType) {
+  async accounts(host: string, externalId: string, type: financialType) {
     const contacts = await WhatsappNotificationRepository.findContacts(
+      host,
       externalId,
       type === 'payables' ? 'contas_pagar' : 'contas_receber',
     );
@@ -24,9 +25,11 @@ class FinancialMessages {
     }
 
     const [financial, checks, creditCardTotal] = await Promise.all([
-      FinancialRepository.findToday(externalId, type),
-      CheckRepository.findToday(externalId, type),
-      type === 'payables' ? CreditCardRepository.findTodayTotal(externalId) : 0,
+      FinancialRepository.findToday(host, externalId, type),
+      CheckRepository.findToday(host, externalId, type),
+      type === 'payables'
+        ? CreditCardRepository.findTodayTotal(host, externalId)
+        : 0,
     ]);
 
     const saturday = subDays(new Date(), 2);
@@ -35,8 +38,14 @@ class FinancialMessages {
     const [weekendFinancial, weekendChecks] =
       getDay(new Date()) === 1
         ? await Promise.all([
-            FinancialRepository.findRange(externalId, type, saturday, sunday),
-            CheckRepository.findRange(externalId, type, saturday, sunday),
+            FinancialRepository.findRange(
+              host,
+              externalId,
+              type,
+              saturday,
+              sunday,
+            ),
+            CheckRepository.findRange(host, externalId, type, saturday, sunday),
           ])
         : [[], []];
 

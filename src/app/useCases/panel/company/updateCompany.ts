@@ -3,6 +3,7 @@ import CompanyRepository from '../../../repositories/panel/CompanyRepository';
 
 interface IUpdateCompany {
   name: string;
+  host: string;
   externalId: string;
 }
 

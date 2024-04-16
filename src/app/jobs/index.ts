@@ -8,8 +8,16 @@ export const financialJob = new CronJob(
     const companies = await CompanyRepository.findMany({ active: true });
 
     for (const company of companies) {
-      await FinancialMessages.accounts(company.externalId, 'payables');
-      await FinancialMessages.accounts(company.externalId, 'receivables');
+      await FinancialMessages.accounts(
+        company.host,
+        company.externalId,
+        'payables',
+      );
+      await FinancialMessages.accounts(
+        company.host,
+        company.externalId,
+        'receivables',
+      );
     }
   },
   null,

@@ -3,6 +3,7 @@
 import Firebird from 'node-firebird';
 
 export function queryFirebird<D>(
+  host: string,
   externalId: string,
   query: string,
   mapper: (persistence: any) => D,
@@ -10,7 +11,7 @@ export function queryFirebird<D>(
   return new Promise<D[]>((resolve, reject) => {
     Firebird.attach(
       {
-        host: process.env.FIREBIRD_HOST,
+        host,
         port: Number(process.env.FIREBIRD_PORT),
         database: `/opt/firebird/data/${externalId}/AGRO.FDB`,
         user: process.env.FIREBIRD_USER,

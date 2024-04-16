@@ -36,7 +36,10 @@ export async function listUsers({
     );
   }
 
-  const users = await UserRepository.findAll(companyExists.externalId);
+  const users = await UserRepository.findAll(
+    companyExists.host,
+    companyExists.externalId,
+  );
 
   return users;
 }

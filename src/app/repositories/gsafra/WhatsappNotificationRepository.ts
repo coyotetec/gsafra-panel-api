@@ -4,8 +4,13 @@ import { findContactsMapper } from './mappers/NotificationMapper';
 type notificationType = 'contas_pagar' | 'contas_receber';
 
 class WhatsappNotificationRepository {
-  findContacts(externalId: string, notification: notificationType) {
+  findContacts(
+    host: string,
+    externalId: string,
+    notification: notificationType,
+  ) {
     return queryFirebird(
+      host,
       externalId,
       `SELECT u.LOGIN, u.WHATSAPP_NOTIFICACAO
       FROM USUARIO_NOTIFICACAO_ZAP unz

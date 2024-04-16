@@ -4,8 +4,9 @@ import { findChecksMapper } from './mappers/CheckMapper';
 import { financialType } from '../../messages/FinancialMessages';
 
 class CheckRepository {
-  findToday(externalId: string, type: financialType) {
+  findToday(host: string, externalId: string, type: financialType) {
     return queryFirebird(
+      host,
       externalId,
       `SELECT
         SUM(c.VALOR) AS VALOR,
@@ -22,12 +23,14 @@ class CheckRepository {
   }
 
   findRange(
+    host: string,
     externalId: string,
     type: financialType,
     startDate: Date,
     endDate: Date,
   ) {
     return queryFirebird(
+      host,
       externalId,
       `SELECT
         SUM(c.VALOR) AS VALOR,

@@ -4,8 +4,9 @@ import { findPayablesMapper } from './mappers/FinancialMapper';
 import { financialType } from '../../messages/FinancialMessages';
 
 class FinancialRepository {
-  findToday(externalId: string, type: financialType) {
+  findToday(host: string, externalId: string, type: financialType) {
     return queryFirebird(
+      host,
       externalId,
       `SELECT
         SUM(
@@ -29,12 +30,14 @@ class FinancialRepository {
   }
 
   findRange(
+    host: string,
     externalId: string,
     type: financialType,
     startDate: Date,
     endDate: Date,
   ) {
     return queryFirebird(
+      host,
       externalId,
       `SELECT
         SUM(

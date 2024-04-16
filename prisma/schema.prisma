@@ -10,6 +10,7 @@ datasource db {
 model Company {
   id         String  @id @default(uuid())
   name       String
+  host       String
   externalId String  @map("external_id")
   active     Boolean @default(true)
 

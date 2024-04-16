@@ -3,10 +3,11 @@ import { queryFirebird } from '../../database/firebird';
 import { findTodayMapper } from './mappers/CreditCardMapper';
 
 class CreditCardRepository {
-  async findTodayTotal(externalId: string) {
+  async findTodayTotal(host: string, externalId: string) {
     return (
       (
         await queryFirebird(
+          host,
           externalId,
           `SELECT
             SUM(cpd.VALOR) AS TOTAL

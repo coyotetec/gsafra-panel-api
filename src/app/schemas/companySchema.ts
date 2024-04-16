@@ -5,6 +5,10 @@ export const companySchema = z.object({
     invalid_type_error: 'Nome deve ser uma string',
     required_error: 'Nome é um campo obrigatório',
   }),
+  host: z.string({
+    invalid_type_error: 'Host deve ser uma string',
+    required_error: 'Host é um campo obrigatório',
+  }),
   externalId: z
     .string({
       invalid_type_error: 'ID Externo deve ser uma string',
