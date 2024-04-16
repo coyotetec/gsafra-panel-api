@@ -2,6 +2,7 @@ import { prisma } from '../../../libs/prisma';
 
 type DataCompanyType = {
   name: string;
+  host: string;
   externalId: string;
 };
 
