@@ -13,6 +13,10 @@ interface IFindeUnique {
   where: { id: string };
 }
 
+interface IFindManyWhere {
+  active?: boolean;
+}
+
 interface ICreateArgs {
   data: DataCompanyType;
 }
@@ -35,8 +39,11 @@ class CompanyRepository {
     });
   }
 
-  async findMany() {
+  async findMany(where?: IFindManyWhere) {
     return await prisma.company.findMany({
+      where: {
+        active: where?.active,
+      },
       orderBy: {
         externalId: 'asc',
       },

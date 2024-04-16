@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import 'express-async-errors';
+import './app/jobs';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';

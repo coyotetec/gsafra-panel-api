@@ -6,15 +6,7 @@ interface IFindAllPersistence {
   EMAIL: string;
 }
 
-export interface IFindAllDomain {
-  id: number;
-  name: string;
-  email?: string;
-}
-
-export function findAllMapper(
-  persistence: IFindAllPersistence,
-): IFindAllDomain {
+export function findAllMapper(persistence: IFindAllPersistence) {
   return {
     id: persistence.ID,
     name: capitalizeWords(persistence.LOGIN),
