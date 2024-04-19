@@ -12,7 +12,7 @@ export function queryFirebird<D>(
     Firebird.attach(
       {
         host,
-        port: Number(process.env.FIREBIRD_PORT),
+        port: 3050,
         database: `/opt/firebird/data/${externalId}/AGRO.FDB`,
         user: process.env.FIREBIRD_USER,
         password: process.env.FIREBIRD_PASSWORD,
