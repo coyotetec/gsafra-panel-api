@@ -13,7 +13,7 @@ export function queryFirebird<D>(
       {
         host,
         port: 3050,
-        database: `/opt/firebird/data/${externalId}/AGRO.FDB`,
+        database: `C:\\Cyot\\BD\\${externalId}\\AGRO.FDB`,
         user: process.env.FIREBIRD_USER,
         password: process.env.FIREBIRD_PASSWORD,
         lowercase_keys: false,
