@@ -3,7 +3,7 @@ import FinancialMessages from '../messages/FinancialMessages';
 import CompanyRepository from '../repositories/panel/CompanyRepository';
 
 export const financialJob = new CronJob(
-  '0 8 * * 1-5',
+  '0 9 * * 1-5',
   async () => {
     const companies = await CompanyRepository.findMany({ active: true });
 
