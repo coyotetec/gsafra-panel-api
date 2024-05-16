@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import UserController from '../controllers/gsafra/UserController';
-import { authentication } from '../middlewares/authentication';
+import { authMiddleware } from '../middlewares/authMiddleware';
 
 export const gsafraRouter = Router();
 
-gsafraRouter.get('/companies/:id/users', authentication, UserController.index);
+gsafraRouter.get('/companies/:id/users', authMiddleware, UserController.index);
