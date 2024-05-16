@@ -5,7 +5,7 @@ import UserController from '../controllers/panel/UserController';
 import AuthController from '../controllers/panel/AuthController';
 import NotificationController from '../controllers/panel/NotificationController';
 
-import { authentication } from '../middlewares/authentication';
+import { authMiddleware } from '../middlewares/authMiddleware';
 import UserCompanyController from '../controllers/panel/UserCompanyController';
 import { sendWhatsappMessage } from '../../utils/sendWhatsappMessage';
 
@@ -17,53 +17,53 @@ panelRouter.get('/test-whatsapp', (req, res) => {
   res.json({ message: 'Hello World' });
 });
 
-panelRouter.get('/companies', authentication, CompanyController.getAll);
-panelRouter.get('/companies/:id', authentication, CompanyController.getById);
-panelRouter.post('/companies', authentication, CompanyController.create);
-panelRouter.put('/companies/:id', authentication, CompanyController.update);
-panelRouter.delete('/companies/:id', authentication, CompanyController.destroy);
+panelRouter.get('/companies', authMiddleware, CompanyController.getAll);
+panelRouter.get('/companies/:id', authMiddleware, CompanyController.getById);
+panelRouter.post('/companies', authMiddleware, CompanyController.create);
+panelRouter.put('/companies/:id', authMiddleware, CompanyController.update);
+panelRouter.delete('/companies/:id', authMiddleware, CompanyController.destroy);
 panelRouter.patch(
   '/companies/:id/activate',
-  authentication,
+  authMiddleware,
   CompanyController.activate,
 );
 
-panelRouter.get('/users', authentication, UserController.index);
-panelRouter.post('/users', authentication, UserController.store);
-panelRouter.put('/users/:id', authentication, UserController.update);
-panelRouter.delete('/users/:id', authentication, UserController.destroy);
+panelRouter.get('/users', authMiddleware, UserController.index);
+panelRouter.post('/users', authMiddleware, UserController.store);
+panelRouter.put('/users/:id', authMiddleware, UserController.update);
+panelRouter.delete('/users/:id', authMiddleware, UserController.destroy);
 panelRouter.patch(
   '/users/:id/activate',
-  authentication,
+  authMiddleware,
   UserController.activate,
 );
 
 panelRouter.get(
   '/users/companies',
-  authentication,
+  authMiddleware,
   UserCompanyController.index,
 );
 
 panelRouter.get(
   '/users/:id/companies',
-  authentication,
+  authMiddleware,
   UserCompanyController.listCompaniesByUserId,
 );
 
-panelRouter.get('/notifications', authentication, NotificationController.index);
+panelRouter.get('/notifications', authMiddleware, NotificationController.index);
 panelRouter.post(
   '/notifications',
-  authentication,
+  authMiddleware,
   NotificationController.store,
 );
 panelRouter.put(
   '/notifications/:id',
-  authentication,
+  authMiddleware,
   NotificationController.update,
 );
 panelRouter.delete(
   '/notifications/:id',
-  authentication,
+  authMiddleware,
   NotificationController.delete,
 );
 

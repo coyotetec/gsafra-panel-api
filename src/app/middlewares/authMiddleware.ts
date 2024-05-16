@@ -3,7 +3,7 @@ import { AuthError } from '../errors/AuthError';
 import jwt from 'jsonwebtoken';
 import { userRoleType } from '../../types/user';
 
-export function authentication(
+export function authMiddleware(
   req: Request,
   res: Response,
   next: NextFunction,
