@@ -30,6 +30,7 @@ class CompanyController {
   }
 
   async getById(req: Request, res: Response) {
+    console.log(req.user.role);
     if (req.user.role !== 'MANAGER') {
       throw new AuthError('Você não tem permissão para buscar uma empresa');
     }

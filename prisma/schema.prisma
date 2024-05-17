@@ -10,8 +10,9 @@ datasource db {
 model Company {
   id         String  @id @default(uuid())
   name       String
+  password   String
   host       String
-  externalId String  @map("external_id")
+  externalId String  @unique @map("external_id")
   active     Boolean @default(true)
 
   userCompany         UserCompany[]

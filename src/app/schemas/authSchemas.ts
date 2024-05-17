@@ -55,3 +55,21 @@ export const requestResetSchema = z
   .email({
     message: 'Insira um E-mail válido',
   });
+
+export const companyLoginSchema = z.object({
+  externalId: z
+    .string({
+      invalid_type_error: 'ID Externo deve ser uma string',
+      required_error: 'ID Externo é um campo obrigatório',
+    })
+    .transform((str) => str.padStart(6, '0')),
+  password: z
+    .string({
+      required_error: 'Senha é um campo obrigatório',
+      invalid_type_error: 'Senha deve ser uma string',
+    })
+    .trim()
+    .min(8, {
+      message: 'Senha inválida',
+    }),
+});

@@ -2,9 +2,14 @@ import { prisma } from '../../../libs/prisma';
 
 type DataCompanyType = {
   name: string;
+  password: string;
   host: string;
   externalId: string;
 };
+
+type findUniqueWhereType =
+  | { id: string; externalId?: string }
+  | { id?: string; externalId: string };
 
 interface IFindFirstArgs {
   where: { externalId: string };
@@ -23,7 +28,11 @@ interface ICreateArgs {
 }
 
 interface IUpdateArgs {
-  data: DataCompanyType;
+  data: {
+    name: string;
+    host: string;
+    externalId: string;
+  };
   where: { id: string };
 }
 
@@ -34,9 +43,9 @@ class CompanyRepository {
     });
   }
 
-  async findUnique(id: string) {
+  async findUnique(where: findUniqueWhereType) {
     return await prisma.company.findUnique({
-      where: { id },
+      where,
     });
   }
 

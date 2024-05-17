@@ -70,3 +70,4 @@ panelRouter.delete(
 panelRouter.post('/auth/login', AuthController.login);
 panelRouter.post('/auth/password', AuthController.resetPassword);
 panelRouter.post('/auth/request-reset', AuthController.requestReset);
+panelRouter.post('/auth/company-login', AuthController.companyLogin);

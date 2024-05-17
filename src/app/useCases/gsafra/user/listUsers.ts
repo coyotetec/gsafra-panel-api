@@ -16,7 +16,7 @@ export async function listUsers({
   requesterId,
   requesterRole,
 }: IListUserArgs) {
-  const companyExists = await CompanyRepository.findUnique(companyId);
+  const companyExists = await CompanyRepository.findUnique({ id: companyId });
 
   if (!companyExists) {
     throw new APPError('Empresa não existe');

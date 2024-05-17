@@ -1,3 +1,5 @@
+import { encryptPassword } from '../../../../utils/cipherFunctions';
+import { generateRandomPassword } from '../../../../utils/generateRandomPassword';
 import { APPError } from '../../../errors/APPError';
 import CompanyRepository from '../../../repositories/panel/CompanyRepository';
 
@@ -18,9 +20,19 @@ export async function createCompany(companyData: ICreateCompany) {
     throw new APPError('Já existe uma empresa com este código');
   }
 
+  const randomPassword = generateRandomPassword();
+  const password = encryptPassword(randomPassword);
+
   const company = await CompanyRepository.create({
-    data: companyData,
+    data: { ...companyData, password },
   });
 
-  return company;
+  return {
+    id: company.id,
+    name: company.name,
+    password: randomPassword,
+    host: company.host,
+    externalId: company.externalId,
+    active: company.active,
+  };
 }
