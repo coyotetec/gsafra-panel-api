@@ -21,10 +21,7 @@ export async function makeCompanyLogin(payload: IMakeCompanyLoginPayload) {
     throw new APPError('Empresa está inativa');
   }
 
-  const samePassword = await validatePassword(
-    payload.password,
-    company.password,
-  );
+  const samePassword = validatePassword(payload.password, company.password);
 
   if (!samePassword) {
     throw new APPError('Senha incorreta');

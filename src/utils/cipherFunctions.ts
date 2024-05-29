@@ -5,7 +5,6 @@ const passwordKey = process.env.PASSWORD_SECRET;
 const passwordIv = process.env.PASSWORD_IV;
 
 if (!passwordKey || !passwordIv) {
-  console.log({ passwordKey, passwordIv });
   throw new Error('Faltam variáveis ambiente');
 }
 

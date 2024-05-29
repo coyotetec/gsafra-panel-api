@@ -36,6 +36,7 @@ class UserCompanyRepository {
             name: true,
             externalId: true,
             active: true,
+            password: true,
           },
         },
       },

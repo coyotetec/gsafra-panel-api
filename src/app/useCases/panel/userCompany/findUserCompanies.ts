@@ -1,3 +1,4 @@
+import { decryptPassword } from '../../../../utils/cipherFunctions';
 import { APPError } from '../../../errors/APPError';
 import UserCompanyRepository from '../../../repositories/panel/UserCompanyRepository';
 
@@ -11,6 +12,7 @@ export async function findUserCompanies(userId: string) {
     name: company.name,
     id: company.id,
     externalId: company.externalId,
+    password: decryptPassword(company.password),
   }));
 
   return {
