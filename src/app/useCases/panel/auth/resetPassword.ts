@@ -1,9 +1,9 @@
-import { hashPassword } from '../../../../utils/hashPassword';
-import { sendEmail } from '../../../../utils/sendEmail';
-import { validatePassword } from '../../../../utils/validatePassword';
-import { APPError } from '../../../errors/APPError';
-import ResetTokenRepository from '../../../repositories/panel/ResetTokenRepository';
-import UserRepository from '../../../repositories/panel/UserRepository';
+import { hashPassword } from "../../../../utils/hashPassword";
+import { sendEmail } from "../../../../utils/sendEmail";
+import { validatePassword } from "../../../../utils/validatePassword";
+import { APPError } from "../../../errors/APPError";
+import ResetTokenRepository from "../../../repositories/panel/ResetTokenRepository";
+import UserRepository from "../../../repositories/panel/UserRepository";
 
 interface IResetPasswordPayload {
   token: string;
@@ -20,7 +20,7 @@ export async function resetPassword(payload: IResetPasswordPayload) {
 
   if (!resetToken || !tokenInValid) {
     throw new APPError(
-      'Seu token está inválido ou expirado, tente solicitar novamente',
+      "Seu token está inválido ou expirado, tente solicitar novamente",
     );
   }
 
@@ -35,8 +35,8 @@ export async function resetPassword(payload: IResetPasswordPayload) {
 
   sendEmail(
     user.email,
-    'Senha Alterada com Sucesso',
+    "Senha Alterada com Sucesso",
     { name: user.name },
-    'passwordChanged',
+    "passwordChanged",
   );
 }
