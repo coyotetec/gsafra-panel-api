@@ -10,9 +10,9 @@ import { AuthError } from "../../errors/AuthError";
 
 class CompanyController {
   async create(req: Request, res: Response) {
-    if (req.user.role !== "ADMIN") {
-      throw new AuthError("Você não tem permissão para criar uma empresa");
-    }
+    // if (req.user.role !== "ADMIN") {
+    //   throw new AuthError("Você não tem permissão para criar uma empresa");
+    // }
 
     const data = companySchema.parse(req.body);
     const company = await createCompany(data);
