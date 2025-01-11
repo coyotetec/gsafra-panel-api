@@ -1,15 +1,15 @@
-import { Request, Response } from 'express';
-import { makeLogin } from '../../useCases/panel/auth/makeLogin';
+import { Request, Response } from "express";
+import { makeLogin } from "../../useCases/panel/auth/makeLogin";
 import {
   companyLoginSchema,
   loginSchema,
   requestResetSchema,
   userStorePasswordSchema,
-} from '../../schemas/authSchemas';
-import { createPassword } from '../../useCases/panel/auth/createPassword';
-import { requestPasswordReset } from '../../useCases/panel/auth/requestPasswordReset';
-import { resetPassword } from '../../useCases/panel/auth/resetPassword';
-import { makeCompanyLogin } from '../../useCases/panel/auth/makeCompanyLogin';
+} from "../../schemas/authSchemas";
+import { createPassword } from "../../useCases/panel/auth/createPassword";
+import { requestPasswordReset } from "../../useCases/panel/auth/requestPasswordReset";
+import { resetPassword } from "../../useCases/panel/auth/resetPassword";
+import { makeCompanyLogin } from "../../useCases/panel/auth/makeCompanyLogin";
 
 class AuthController {
   async login(req: Request, res: Response) {
@@ -30,11 +30,11 @@ class AuthController {
         token: data.token,
       });
 
-      return res.status(201).json({ message: 'Senha alterada com sucesso' });
+      return res.status(201).json({ message: "Senha alterada com sucesso" });
     } else {
-      await createPassword(data.userId, data.password);
+      await createPassword(req.body);
 
-      return res.status(201).json({ message: 'Senha criada com sucesso' });
+      return res.status(201).json({ message: "Senha criada com sucesso" });
     }
   }
 
@@ -45,7 +45,7 @@ class AuthController {
 
     return res
       .status(200)
-      .json({ message: 'Solicitação registrada, verifique seu email' });
+      .json({ message: "Solicitação registrada, verifique seu email" });
   }
 
   async companyLogin(req: Request, res: Response) {

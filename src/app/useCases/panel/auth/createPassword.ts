@@ -1,9 +1,21 @@
+import axios from 'axios';
 import { hashPassword } from '../../../../utils/hashPassword';
 import { sendEmail } from '../../../../utils/sendEmail';
 import { APPError } from '../../../errors/APPError';
 import UserRepository from '../../../repositories/panel/UserRepository';
-
-export async function createPassword(userId: string, password: string) {
+import { createPasswordFirebird } from '../../gsafra/user/createPassword';
+interface ICreatePassword {
+  userId: string;
+  password: string;
+  companyId: string;
+  firebirdId: string;
+}
+export async function createPassword({
+  userId,
+  password,
+  companyId,
+  firebirdId,
+}: ICreatePassword) {
   const userExists = await UserRepository.findUnique({
     id: userId,
   });
@@ -17,9 +29,20 @@ export async function createPassword(userId: string, password: string) {
   }
 
   const hashedPassword = await hashPassword(password);
-
-  await UserRepository.createPassword(userId, hashedPassword);
-
+  await createPasswordFirebird({
+    companyId,
+    firebirdId: Number(firebirdId),
+    password: hashedPassword,
+  });
+  const companyCreatedPassword = await UserRepository.createPassword(
+    userId,
+    hashedPassword,
+  );
+  await axios.post('http://92.246.130.139:3000/create-user', {
+    email: String(userExists.email),
+    companyId: companyCreatedPassword.externalId,
+    userId: firebirdId,
+  });
   sendEmail(
     userExists.email,
     'Senha Alterada com Sucesso',

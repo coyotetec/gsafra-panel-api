@@ -1,9 +1,9 @@
-import { userRoleType } from '../../../../types/user';
-import { APPError } from '../../../errors/APPError';
-import { AuthError } from '../../../errors/AuthError';
-import UserRepository from '../../../repositories/gsafra/UserRepository';
-import CompanyRepository from '../../../repositories/panel/CompanyRepository';
-import UserCompanyRepository from '../../../repositories/panel/UserCompanyRepository';
+import { userRoleType } from "../../../../types/user";
+import { APPError } from "../../../errors/APPError";
+import { AuthError } from "../../../errors/AuthError";
+import UserRepository from "../../../repositories/gsafra/UserRepository";
+import CompanyRepository from "../../../repositories/panel/CompanyRepository";
+import UserCompanyRepository from "../../../repositories/panel/UserCompanyRepository";
 
 interface IListUserArgs {
   companyId: string;
@@ -17,13 +17,12 @@ export async function listUsers({
   requesterRole,
 }: IListUserArgs) {
   const companyExists = await CompanyRepository.findUnique({ id: companyId });
-
   if (!companyExists) {
-    throw new APPError('Empresa não existe');
+    throw new APPError("Empresa não existe");
   }
 
   const userBelongsToCompany =
-    requesterRole === 'MANAGER'
+    requesterRole === "MANAGER"
       ? true
       : await UserCompanyRepository.userBelongsToCompany({
           companyId,
@@ -32,7 +31,7 @@ export async function listUsers({
 
   if (!userBelongsToCompany) {
     throw new AuthError(
-      'Você não tem permissão para listar os usuários desta empresa',
+      "Você não tem permissão para listar os usuários desta empresa",
     );
   }
 

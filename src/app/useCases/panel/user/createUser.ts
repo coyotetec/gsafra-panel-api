@@ -17,12 +17,14 @@ interface ICreateUserArgs {
   payload: ICreateUserPayload;
   requesterId: string;
   requesterRole: userRoleType;
+  firebirdUserId: number;
 }
 
 export async function createUser({
   payload,
   requesterId,
   requesterRole,
+  firebirdUserId,
 }: ICreateUserArgs) {
   const requesterUserCompanies = await UserCompanyRepository.findAll({
     userId: requesterId,
@@ -60,11 +62,13 @@ export async function createUser({
       companyId: payload.companyId,
     });
   }
-
   sendEmail(
     user.email,
     'Bem-vindo ao Painel GSafra',
-    { name: user.name, url: `${process.env.RESET_PASSWORD_URL}?u=${user.id}` },
+    {
+      name: user.name,
+      url: `${process.env.RESET_PASSWORD_URL}?u=${user.id}&f=${firebirdUserId}&c=${payload.companyId}`,
+    },
     'welcome',
   );
 

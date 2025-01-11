@@ -7,6 +7,7 @@ import { listUsers } from "../../useCases/panel/user/listUsers";
 import { AuthError } from "../../errors/AuthError";
 import { userSchema, userStoreSchema } from "../../schemas/userSchemas";
 import { bulkCreateUsers } from "../../useCases/panel/user/bulkCreateUsers";
+import { createUserInFirebird } from "../../useCases/gsafra/user/createUser";
 
 class UserController {
   async index(req: Request, res: Response) {
@@ -42,16 +43,29 @@ class UserController {
         );
       }
     }
-
-    const response = Array.isArray(data)
-      ? await bulkCreateUsers(data)
-      : await createUser({
-          payload: data,
-          requesterId: req.user.id,
-          requesterRole: req.user.role,
-        });
-
-    return res.status(201).json(response);
+    if (Array.isArray(data)) {
+      const response = bulkCreateUsers(data);
+      return res.status(201).json(response);
+    }
+    const firebirdUser: any = await createUserInFirebird({
+      companyId: String(data.companyId),
+      idPapel: data.idPapel,
+      login: data.email,
+    });
+    const firebirdAgnostic = firebirdUser as unknown as any;
+    const user = await Promise.all([
+      await createUser({
+        payload: data,
+        requesterId: req.user.id,
+        requesterRole: req.user.role,
+        firebirdUserId: firebirdAgnostic.ID,
+      }),
+    ]);
+    const preparedData = user.map((item) => ({
+      ...item,
+      firebirdUserId: firebirdAgnostic.ID,
+    }));
+    return res.status(201).json(preparedData);
   }
 
   async update(req: Request, res: Response) {

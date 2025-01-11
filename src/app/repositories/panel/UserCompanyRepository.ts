@@ -1,4 +1,4 @@
-import { prisma } from '../../../libs/prisma';
+import { prisma } from "../../../libs/prisma";
 
 type findAllWhereType = { companyId?: string; userId?: string };
 
@@ -35,6 +35,7 @@ class UserCompanyRepository {
             id: true,
             name: true,
             externalId: true,
+            host: true,
             active: true,
             password: true,
           },
