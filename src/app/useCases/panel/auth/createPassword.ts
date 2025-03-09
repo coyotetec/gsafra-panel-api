@@ -38,7 +38,7 @@ export async function createPassword({
     userId,
     hashedPassword,
   );
-  await axios.post('http://92.246.130.139:3000/create-user', {
+  await axios.post('http://acesso.gsafra.com:3004/create-user', {
     email: String(userExists.email),
     companyId: companyCreatedPassword.externalId,
     userId: firebirdId,
