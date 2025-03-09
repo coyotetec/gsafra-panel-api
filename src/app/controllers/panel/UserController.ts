@@ -27,9 +27,9 @@ class UserController {
     if (!["ADMIN", "MANAGER"].includes(req.user.role)) {
       throw new AuthError("Você não tem permissão para criar um usuário");
     }
-
-    const data = userStoreSchema.parse(req.body);
-
+    
+    const data = req.body
+    
     if (Array.isArray(data)) {
       if (req.user.role !== "MANAGER") {
         throw new AuthError(
