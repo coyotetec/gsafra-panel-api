@@ -33,6 +33,7 @@ export async function sendEmail(
 
   transporter.sendMail(options(), (error) => {
     if (error) {
+      console.log(error)
       console.log('Erro ao enviar o e-mail');
       return error;
     }
