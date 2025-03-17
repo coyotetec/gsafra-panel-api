@@ -19,6 +19,13 @@ export async function sendEmail(
       pass: process.env.EMAIL_PASSWORD,
     },
   });
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error('Transporter verification failed:', error);
+    } else {
+      console.log('Server is ready to send emails:', success);
+    }
+  });
   const source = fs.readFileSync(
     path.resolve(__dirname, '..', '..', 'templates', `${templateName}.hbs`),
     'utf-8',
