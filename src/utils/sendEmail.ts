@@ -20,6 +20,15 @@ export async function sendEmail(
       pass: process.env.EMAIL_PASSWORD,
     },
   });
+  console.log({
+    host: process.env.EMAIL_HOST,
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  })
   transporter.verify((error, success) => {
     if (error) {
       console.error('Transporter verification failed:', error);
