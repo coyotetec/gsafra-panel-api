@@ -11,11 +11,12 @@ export function queryFirebird<D>(
   return new Promise<D[]>((resolve, reject) => {
     Firebird.attach(
       {
+        database: `C:\\Cyot\\BD\\${externalId}\\AGRO.FDB`,
+        user: process.env.FIREBIRD_USER,
+        password: process.env.FIREBIRD_PASSWORD,
+        lowercase_keys: false,
         host: "localhost",
         port: 3050,
-        database: `//Library//Frameworks//Firebird.framework//Versions//A//Resources//examples//empbuild//AGRO.FDB`,
-        user: "SYSDBA",
-        password: "masterkey",
         pageSize: 4096,
         blobAsText: true,
       },
