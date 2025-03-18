@@ -10,6 +10,7 @@ import { createPassword } from "../../useCases/panel/auth/createPassword";
 import { requestPasswordReset } from "../../useCases/panel/auth/requestPasswordReset";
 import { resetPassword } from "../../useCases/panel/auth/resetPassword";
 import { makeCompanyLogin } from "../../useCases/panel/auth/makeCompanyLogin";
+import { sendEmail } from "../../../utils/sendEmail";
 
 class AuthController {
   async login(req: Request, res: Response) {
@@ -19,7 +20,10 @@ class AuthController {
 
     return res.json(response);
   }
-
+  async testEmail(req: Request, res: Response) {
+    const send = await sendEmail('raulcesar5412@gmail.com', 'Teste', { name: 'Raul' }, 'welcome')
+    return res.status(200).json({ message: 'Email enviado com sucesso' })
+  }
   async resetPassword(req: Request, res: Response) {
     const data = userStorePasswordSchema.parse(req.body);
 

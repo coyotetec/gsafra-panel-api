@@ -12,6 +12,7 @@ import { sendWhatsappMessage } from '../../utils/sendWhatsappMessage';
 export const panelRouter = Router();
 
 panelRouter.get('/test', (req, res) => res.json({ message: 'Hello World' }));
+panelRouter.get('/test-email', (req, res) => AuthController.testEmail(req, res));
 panelRouter.get('/test-whatsapp', (req, res) => {
   sendWhatsappMessage('559180589159', 'Mensagem de teste');
   res.json({ message: 'Hello World' });

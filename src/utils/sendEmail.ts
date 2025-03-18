@@ -12,29 +12,13 @@ export async function sendEmail(
   templateName: emailTemplateName,
 ) {
   const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
+    host: 'smtp.hostinger.com',
     port: 465,
     secure: true,
     auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
+      user: 'noreply@gsafra.com',
+      pass: 'dZ6|=~iRHF=M'
     },
-  });
-  console.log({
-    host: process.env.EMAIL_HOST,
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  })
-  transporter.verify((error, success) => {
-    if (error) {
-      console.error('Transporter verification failed:', error);
-    } else {
-      console.log('Server is ready to send emails:', success);
-    }
   });
   const source = fs.readFileSync(
     path.resolve(__dirname, '..', '..', 'templates', `${templateName}.hbs`),
