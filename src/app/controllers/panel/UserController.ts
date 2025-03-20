@@ -51,7 +51,10 @@ class UserController {
       companyId: String(data.companyId),
       idPapel: data.idPapel,
       login: data.email,
-    });
+    }).catch(err => {console.log(err)
+
+      throw new AuthError("Erro ao criar usuário no banco de dados do firebird");
+    });;
     const firebirdAgnostic = firebirdUser as unknown as any;
     const user = await Promise.all([
       await createUser({
@@ -60,7 +63,7 @@ class UserController {
         requesterRole: req.user.role,
         firebirdUserId: firebirdAgnostic.ID,
       }),
-    ]);
+    ])
     const preparedData = user.map((item) => ({
       ...item,
       firebirdUserId: firebirdAgnostic.ID,
