@@ -27,9 +27,9 @@ class UserController {
     if (!["ADMIN", "MANAGER"].includes(req.user.role)) {
       throw new AuthError("Você não tem permissão para criar um usuário");
     }
-    
+
     const data = req.body
-    
+
     if (Array.isArray(data)) {
       if (req.user.role !== "MANAGER") {
         throw new AuthError(
@@ -51,9 +51,9 @@ class UserController {
       companyId: String(data.companyId),
       idPapel: data.idPapel,
       login: data.email,
-    }).catch(err => {console.log(err)
-
-      throw new AuthError("Erro ao criar usuário no banco de dados do firebird");
+    }).catch(err => {
+      console.log(err)
+      return res.status(400).json({ message: "Erro ao criar usuário no banco de dados do firebird" })
     });;
     const firebirdAgnostic = firebirdUser as unknown as any;
     const user = await Promise.all([
