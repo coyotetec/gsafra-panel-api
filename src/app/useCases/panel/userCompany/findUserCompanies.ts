@@ -18,17 +18,17 @@ export async function findUserCompanies(userId: string) {
   }));
   const userFirebirdId = formattedCompaniesData.length
     ? await UserRepository.findByEmail(
-        formattedCompaniesData[0].host,
-        formattedCompaniesData[0].externalId,
-        {
-          email: user?.email || '',
-        },
-      )
+      formattedCompaniesData[0].host,
+      formattedCompaniesData[0].externalId,
+      {
+        email: user?.email || '',
+      },
+    )
     : [{ id: '' }];
 
   return {
     externalUserId: companiesData?.[0]?.user?.externalId,
     companies: formattedCompaniesData,
-    userFirebirdId: userFirebirdId?.[0]?.id,
+    userFirebirdId: userFirebirdId.map(item => item.id),
   };
 }
