@@ -15,20 +15,25 @@ export async function findUserCompanies(userId: string) {
     externalId: company.externalId,
     host: company.host || '',
     password: decryptPassword(company.password),
-  }));
-  const userFirebirdId = formattedCompaniesData.length
-    ? await UserRepository.findByEmail(
-      formattedCompaniesData[0].host,
-      formattedCompaniesData[0].externalId,
-      {
-        email: user?.email || '',
-      },
-    )
-    : [{ id: '' }];
+  }))
 
+  const userFirebirdId = Promise.all(formattedCompaniesData.map(async item => {
+    try {
+      const data = await UserRepository.findByEmail(
+        item.host,
+        item.externalId,
+        {
+          email: user?.email || '',
+        })
+      return data[0]
+    } catch (err) {
+      return null
+    }
+  }))
+  const dataFirebirdId = await userFirebirdId
   return {
-    externalUserId: companiesData?.[0]?.user?.externalId,
+    externalUserId: companiesData?.map(item => item.company.externalId),
     companies: formattedCompaniesData,
-    userFirebirdId: userFirebirdId.map(item => item.id),
+    userFirebirdId: await dataFirebirdId?.map(item => item?.id),
   };
 }
