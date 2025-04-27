@@ -22,9 +22,10 @@ export function queryFirebird<D>(
       },
       (err, db) => {
         if (err) {
+          console.log(err, 'erro na conexão com o banco');
           return reject(err);
         }
-
+        
         db.query(query, [], (err, result) => {
           db.detach();
           if (!result) {
@@ -34,6 +35,7 @@ export function queryFirebird<D>(
             return resolve(result);
           }
           if (err) {
+            console.log(err, 'error na consulta ao banco');
             return reject(err);
           }
           resolve(result.map((item) => mapper(item)));
