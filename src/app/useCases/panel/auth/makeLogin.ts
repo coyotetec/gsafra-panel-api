@@ -21,7 +21,6 @@ export async function makeLogin(payload: IMakeLoginPayload) {
   const userCompanies = await UserCompanyRepository.findManyUserCompanies(
     user.id,
   );
-
   if (
     user.role !== 'MANAGER' &&
     userCompanies.every(({ company: { active } }) => !active)
@@ -58,7 +57,13 @@ export async function makeLogin(payload: IMakeLoginPayload) {
       id: user.id,
       name: user.name,
       role: user.role,
-      externalId: user.externalId,
     },
+    company: userCompanies.map(({ company }) => ({
+      id: company.id,
+      name: company.name,
+      externalId: company.externalId,
+      host: company.host,
+      active: company.active
+    }))
   };
 }

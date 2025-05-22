@@ -50,7 +50,7 @@ panelRouter.get(
   authMiddleware,
   UserCompanyController.listCompaniesByUserId,
 );
-
+panelRouter.post('/user/create-api', authMiddleware, UserController.createExternalUser);
 panelRouter.get('/notifications', authMiddleware, NotificationController.index);
 panelRouter.post(
   '/notifications',
