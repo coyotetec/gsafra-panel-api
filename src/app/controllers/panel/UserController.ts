@@ -120,6 +120,20 @@ class UserController {
 
     return res.json({ message: "Usuário ativado" });
   }
+  async createExternalUser(req: Request, res: Response) {
+   const data =  await fetch('http://acesso.gsafra.com:3004/create-user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: req.body.userId,
+        companyId: req.body.companyId,
+        "email": "teste:@test.com",
+      })
+    })
+    return res.json(data)
+  }
 }
 
 export default new UserController();
